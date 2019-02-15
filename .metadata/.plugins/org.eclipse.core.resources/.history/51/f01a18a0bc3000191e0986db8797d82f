@@ -1,0 +1,29 @@
+package com.prs.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.prs.business.purchaserequest.PurchaseRequestRepository;
+
+@RestController
+@RequestMapping("/purchaserequest")
+public class PurchaseRequestController {
+	
+	@Autowired
+	private PurchaseRequestRepository prRepo;
+	
+	@GetMapping("/")
+	public JsonResponse getAll() {
+		JsonResponse jr = null;
+		try {
+			jr = JsonResponse.getInstance(prRepo.findAll());
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		
+		return jr;
+	}
+}
