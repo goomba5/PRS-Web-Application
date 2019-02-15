@@ -3,8 +3,6 @@ package com.prs.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,8 +59,8 @@ public class ProductController {
 			productRepo.save(p);
 			jr = JsonResponse.getInstance(p);
 		}
-		catch(DataIntegrityViolationException cve) {
-			jr = JsonResponse.getInstance(cve);
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
 		}
 		return jr;
 	}
@@ -75,24 +73,5 @@ public class ProductController {
 	@PutMapping("/")
 	public JsonResponse updateProduct(@RequestBody Product p) {
 		return saveProduct(p);
-	}
-	
-	@DeleteMapping("/{id}")
-	public JsonResponse deleteProduct(@PathVariable int id) {
-		JsonResponse jr = null;
-		try {
-			Optional<Product> product = productRepo.findById(id);
-			if(product.isPresent()) {
-				productRepo.deleteById(id);
-				jr = JsonResponse.getInstance(product);
-			}
-			else {
-				jr = JsonResponse.getInstance("Error deleting product for ID: " + id);
-			}
-		}
-		catch(Exception e) {
-			jr = JsonResponse.getInstance(e);
-		}
-		return jr;
 	}
 }
