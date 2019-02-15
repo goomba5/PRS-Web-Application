@@ -1,5 +1,6 @@
 package com.prs.business.product;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-//	private int vendorID;
+	
 	@ManyToOne
 	@JoinColumn(name="vendorID")
 	private Vendor vendor;
@@ -25,20 +26,24 @@ public class Product {
 	private String unit;
 	private String photoPath;
 	
+	@Column(name="isActive")
+	private boolean active;
+	
 	public Product() {
 		super();
 	}
 	
-	public Product(int id, Vendor vendor, String partNumber, String name, double price, String unit, String photoPath) {
+	public Product(int id, Vendor vendor, String partNumber, String name, 
+			double price, String unit, String photoPath, boolean active) {
 		super();
 		this.id = id;
 		this.vendor = vendor;
-//		this.vendor = vendor;
 		this.partNumber = partNumber;
 		this.name = name;
 		this.price = price;
 		this.unit = unit;
 		this.photoPath = photoPath;
+		this.active = active;
 	}
 
 	public int getId() {
@@ -95,6 +100,14 @@ public class Product {
 
 	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

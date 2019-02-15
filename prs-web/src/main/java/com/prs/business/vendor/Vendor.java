@@ -1,16 +1,10 @@
 package com.prs.business.vendor;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.prs.business.product.Product;
 
 @Entity
 public class Vendor {
@@ -27,15 +21,18 @@ public class Vendor {
 	private String phoneNumber;
 	private String email;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="vendor")
-	private List<Product> products;
+	@Column(name="isPreApproved")
+	private boolean preApproved;
+	
+	@Column(name="isActive")
+	private boolean active;
 	
 	public Vendor() {
 		super();
 	}
 
-	public Vendor(int id, String code, String name, String address, String city, String state, String zip, String phoneNumber,
-			String email) {
+	public Vendor(int id, String code, String name, String address, String city, String state, String zip,
+			String phoneNumber, String email, boolean preApproved, boolean active) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -46,6 +43,8 @@ public class Vendor {
 		this.zip = zip;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
+		this.preApproved = preApproved;
+		this.active = active;
 	}
 
 	public int getId() {
@@ -118,6 +117,22 @@ public class Vendor {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isPreApproved() {
+		return preApproved;
+	}
+
+	public void setPreApproved(boolean preApproved) {
+		this.preApproved = preApproved;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

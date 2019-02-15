@@ -1,0 +1,5 @@
+package com.prs.business.product;
+
+public class Product {
+
+}

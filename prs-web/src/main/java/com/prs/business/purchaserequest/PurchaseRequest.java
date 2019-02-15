@@ -18,7 +18,6 @@ public class PurchaseRequest {
 	@ManyToOne
 	@JoinColumn(name="userID")
 	private User user;
-//	private int userID;
 	
 	private String description;
 	private String justification;
@@ -124,7 +123,7 @@ public class PurchaseRequest {
 		return reasonForRejection;
 	}
 
-	public void setRejectionReason(String rejectionReason) {
+	public void setRejectionForReason(String rejectionForReason) {
 		this.reasonForRejection = reasonForRejection;
 	}
 
