@@ -1,0 +1,5 @@
+package com.prs.business.prli;
+
+public class PurchaseRequestLineItem {
+
+}

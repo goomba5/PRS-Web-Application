@@ -31,7 +31,7 @@ public class PurchaseRequest {
 	public PurchaseRequest() {
 		super();
 	}
-
+	
 	public PurchaseRequest(int id, User user, String description, String justification, String dateNeeded,
 			String deliveryMode, String status, double total, String submittedDate, String reasonForRejection) {
 		super();

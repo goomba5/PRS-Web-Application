@@ -1,0 +1,13 @@
+package com.prs.business.prli;
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.prs.business.purchaserequest.PurchaseRequest;
+
+public interface PRLIRepository extends CrudRepository<PurchaseRequestLineItem, Integer> {
+	
+	// create list of prlis to loop through when recalculating the total
+	List<PurchaseRequestLineItem> findByPurchaseRequest(PurchaseRequest pr);
+}

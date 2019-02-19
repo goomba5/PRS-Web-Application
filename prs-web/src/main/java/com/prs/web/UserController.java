@@ -17,7 +17,7 @@ import com.prs.business.user.User;
 import com.prs.business.user.UserRepository;
 
 @RestController
-@RequestMapping(path="/user")
+@RequestMapping(path="/users")
 public class UserController {
 	
 	@Autowired
@@ -46,6 +46,24 @@ public class UserController {
 			}
 			else {
 				jr = JsonResponse.getInstance("No user found for ID: " + id);
+			}
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	@PostMapping("/authenticate")
+	public JsonResponse finduserNameAndPassword(@RequestBody User u) {
+		JsonResponse jr = null;
+		try {
+			Optional<User> user = userRepo.findByUserNameAndPassword(u.getUserName(), u.getPassword());
+			if(user.isPresent()) {
+				jr = JsonResponse.getInstance(user);
+			}
+			else {
+				jr = JsonResponse.getInstance("Incorrect username or password entered. Please try again.");
 			}
 		}
 		catch(Exception e) {

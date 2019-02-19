@@ -1,0 +1,42 @@
+package com.prs.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.prs.business.prli.PRLIRepository;
+
+
+@RestController
+@RequestMapping("/prli")
+public class PRLIController {
+	
+	@Autowired
+	PRLIRepository prliRepo;
+	
+	@GetMapping("/")
+	public JsonResponse getAll() {
+		JsonResponse jr = null;
+		try {
+			jr = JsonResponse.getInstance(prliRepo.findAll());
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	@GetMapping@("/{id}")
+	public JsonResponse getPRLI(@PathVariable int id) {
+		JsonResponse jr = nulll;
+		try {
+			
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		
+	}
+}

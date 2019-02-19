@@ -1,5 +1,6 @@
 package com.prs.web;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import com.prs.business.purchaserequest.PurchaseRequest;
 import com.prs.business.purchaserequest.PurchaseRequestRepository;
 
 @RestController
-@RequestMapping("/purchaserequest")
+@RequestMapping("/purchase-requests")
 public class PurchaseRequestController {
 	
 	@Autowired
@@ -51,21 +52,58 @@ public class PurchaseRequestController {
 		return jr;
 	}
 	
-	private JsonResponse savePurchaseRequest(@RequestBody PurchaseRequest pr) {
+//	@PostMapping("/")
+//	public JsonResponse addPurchaseRequest(@RequestBody PurchaseRequest pr) {
+//		return savePurchaseRequest(pr);
+//	}
+	
+	@PostMapping("/submit-new")
+	public JsonResponse submitPurchaseRequest(@RequestBody PurchaseRequest pr) {
 		JsonResponse jr = null;
 		try {
-			prRepo.save(pr);
+			LocalDateTime today = LocalDateTime.now();
+			String submittedDate = today.toString();
+			
+			pr.setSubmittedDate(submittedDate);
+			pr.setStatus("New");
+			savePurchaseRequest(pr);
+			
 			jr = JsonResponse.getInstance(pr);
 		}
-		catch(DataIntegrityViolationException cve) {
-			jr = JsonResponse.getInstance(cve);
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
 		}
 		return jr;
 	}
 	
-	@PostMapping("/")
-	public JsonResponse addPurchaseRequest(@RequestBody PurchaseRequest pr) {
-		return savePurchaseRequest(pr);
+	@PostMapping("/approved")
+	public JsonResponse reviewApproved(@RequestBody PurchaseRequest pr) {
+		JsonResponse jr = null;
+		try {
+			pr.setStatus("Approved");
+			savePurchaseRequest(pr);
+			
+			jr = JsonResponse.getInstance(pr);
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	@PostMapping("/rejected")
+	public JsonResponse reviewRejected(@RequestBody PurchaseRequest pr) {
+		JsonResponse jr = null;
+		try {
+			pr.setStatus("Rejected");
+			savePurchaseRequest(pr);
+			
+			jr = JsonResponse.getInstance(pr);
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
 	}
 	
 	@PutMapping("/")
@@ -85,6 +123,18 @@ public class PurchaseRequestController {
 		}
 		catch(Exception e) {
 			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	private JsonResponse savePurchaseRequest(@RequestBody PurchaseRequest pr) {
+		JsonResponse jr = null;
+		try {
+			prRepo.save(pr);
+			jr = JsonResponse.getInstance(pr);
+		}
+		catch(DataIntegrityViolationException cve) {
+			jr = JsonResponse.getInstance(cve);
 		}
 		return jr;
 	}

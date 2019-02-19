@@ -1,0 +1,9 @@
+package com.prs.business.prli;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.prs.business.purchaserequest.PurchaseRequest;
+
+public interface PRLIRepository extends CrudRepository<PurchaseRequestLineItem, Integer> {
+	PurchaseRequestLineItem findByPurchaseRequest(PurchaseRequest pr);
+}
