@@ -17,7 +17,7 @@ import com.prs.business.product.Product;
 import com.prs.business.product.ProductRepository;
 
 @RestController
-@RequestMapping(path="/product")
+@RequestMapping(path="/products")
 public class ProductController {
 	
 	@Autowired
@@ -55,21 +55,16 @@ public class ProductController {
 		return jr;
 	}
 	
-	private JsonResponse saveProduct(@RequestBody Product p) {
-		JsonResponse jr = null;
-		try {
-			productRepo.save(p);
-			jr = JsonResponse.getInstance(p);
-		}
-		catch(DataIntegrityViolationException cve) {
-			jr = JsonResponse.getInstance(cve);
-		}
-		return jr;
-	}
-	
 	@PostMapping("/")
 	public JsonResponse addProduct(@RequestBody Product p) {
-		return saveProduct(p);
+		JsonResponse jr = null;
+		if(productRepo.existsById(p.getId())) {
+			jr = JsonResponse.getInstance("Oops! This product already exists.");
+		}
+		else {
+			jr = saveProduct(p);
+		}
+		return jr;
 	}
 	
 	@PutMapping("/")
@@ -92,6 +87,18 @@ public class ProductController {
 		}
 		catch(Exception e) {
 			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	private JsonResponse saveProduct(@RequestBody Product p) {
+		JsonResponse jr = null;
+		try {
+			productRepo.save(p);
+			jr = JsonResponse.getInstance(p);
+		}
+		catch(DataIntegrityViolationException cve) {
+			jr = JsonResponse.getInstance(cve);
 		}
 		return jr;
 	}

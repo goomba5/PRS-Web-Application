@@ -17,7 +17,7 @@ import com.prs.business.vendor.Vendor;
 import com.prs.business.vendor.VendorRepository;
 
 @RestController
-@RequestMapping(path="/vendor")
+@RequestMapping(path="/vendors")
 public class VendorController {
 	
 	@Autowired
@@ -57,17 +57,13 @@ public class VendorController {
 	
 	@PostMapping("/")
 	public JsonResponse addVendor(@RequestBody Vendor v) {
-		return saveVendor(v);
-	}
-	
-	private JsonResponse saveVendor(Vendor v) {
 		JsonResponse jr = null;
-		try {
-			vendorRepo.save(v);
-			jr = JsonResponse.getInstance(v);
+		
+		if(vendorRepo.existsById(v.getId())) {
+			jr = JsonResponse.getInstance("Oops! This vendor already exists.");
 		}
-		catch(DataIntegrityViolationException cve) {
-			jr = JsonResponse.getInstance(cve.getMessage());
+		else {
+			jr = saveVendor(v);
 		}
 		return jr;
 	}
@@ -92,6 +88,18 @@ public class VendorController {
 		}
 		catch(Exception e) {
 			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+	private JsonResponse saveVendor(Vendor v) {
+		JsonResponse jr = null;
+		try {
+			vendorRepo.save(v);
+			jr = JsonResponse.getInstance(v);
+		}
+		catch(DataIntegrityViolationException cve) {
+			jr = JsonResponse.getInstance(cve.getMessage());
 		}
 		return jr;
 	}

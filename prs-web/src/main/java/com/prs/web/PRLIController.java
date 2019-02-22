@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prs.business.prli.PRLIRepository;
 import com.prs.business.prli.PurchaseRequestLineItem;
 import com.prs.business.purchaserequest.PurchaseRequest;
+import com.prs.business.purchaserequest.PurchaseRequestRepository;
 
 
 @RestController
@@ -25,6 +26,9 @@ public class PRLIController {
 	
 	@Autowired
 	PRLIRepository prliRepo;
+	
+	@Autowired
+	PurchaseRequestRepository prRepo;
 	
 	@GetMapping("/")
 	public JsonResponse getAll() {
@@ -86,6 +90,32 @@ public class PRLIController {
 		return jr;
 	}
 	
+	
+	private void recalculateTotal(PurchaseRequestLineItem prli) {
+		// get the purchase request
+		PurchaseRequest pr = prli.getPurchaseRequest();
+		
+		
+		// create list of prlis from the given purchase request
+		List<PurchaseRequestLineItem> prliList = prliRepo.findByPurchaseRequest(pr);
+		double total = 0.0;
+		
+		// loop through all prlis to recalculate the total
+		for(PurchaseRequestLineItem prlis: prliList) {
+			
+			// subtotal will be price * quantity
+			double subtotal = prlis.getProduct().getPrice() * prlis.getQuantity();
+			
+			total += subtotal;
+		}
+		
+		// set the new total for purchase request
+		pr.setTotal(total);
+		
+		// save the total
+		prRepo.save(pr);
+	}
+	
 	private JsonResponse savePRLI(PurchaseRequestLineItem prli) {
 		JsonResponse jr = null;
 		try {
@@ -98,26 +128,5 @@ public class PRLIController {
 			jr = JsonResponse.getInstance(cve);
 		}
 		return jr;
-	}
-	
-	private void recalculateTotal(PurchaseRequestLineItem prli) {
-		// get the purchase request
-		PurchaseRequest pr = prli.getPurchaseRequest();
-		
-		// create list of prlis from the given purchase request
-		List<PurchaseRequestLineItem> prliList = prliRepo.findByPurchaseRequest(pr);
-		double total = 0.0;
-		
-		// loop through all prlis to recalculate the total
-		for(PurchaseRequestLineItem prlis: prliList) {
-			
-			// subtotal will be price * quantity
-			double subtotal = prlis.getProduct().getPrice() * prli.getQuantity();
-			
-			total += subtotal;
-		}
-		
-		// set the new total for purchase request
-		pr.setTotal(total);
 	}
 }

@@ -1,7 +1,11 @@
 package com.prs.business.purchaserequest;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface PurchaseRequestRepository extends CrudRepository<PurchaseRequest, Integer> {
-//	PurchaseRequest find();
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.prs.business.user.User;
+
+public interface PurchaseRequestRepository extends PagingAndSortingRepository<PurchaseRequest, Integer> {
+	List<PurchaseRequest> findByStatusAndUserNot(String status, User user);
 }

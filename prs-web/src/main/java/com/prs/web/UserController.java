@@ -74,25 +74,23 @@ public class UserController {
 	
 	@PostMapping("/")
 	public JsonResponse addUser(@RequestBody User u) {
-		return saveUser(u);
+		JsonResponse jr = null;
+		if(userRepo.existsById(u.getId())) {
+			jr = JsonResponse.getInstance("Uh oh! This user already exists.");
+		}
+		else {
+			jr =  saveUser(u);
+		}
+		
+		return jr;
 	}
 	
 	@PutMapping("/{id}")
 	public JsonResponse updateUser(@RequestBody User u, @PathVariable int id) {
+		
 		return saveUser(u);
 	}
 	
-	private JsonResponse saveUser(User u) {
-		JsonResponse jr = null;
-		try {
-			userRepo.save(u);
-			jr = JsonResponse.getInstance(u);
-		}
-		catch(DataIntegrityViolationException cve) {
-			jr = JsonResponse.getInstance(cve.getMessage());
-		}
-		return jr;
-	}
 	
 	@DeleteMapping("/{id}")
 	public JsonResponse deleteUser(@PathVariable int id) {
@@ -104,13 +102,25 @@ public class UserController {
 				jr = JsonResponse.getInstance(u);
 			}
 			else {
-				jr = JsonResponse.getInstance("Delete unsuccessful. No user for ID: " + id);
+				jr = JsonResponse.getInstance("Oops! There is no user with ID: " + id);
 			}
 		}
 		catch(Exception e) {
 			jr = JsonResponse.getInstance(e);
 		}
 		
+		return jr;
+	}
+	
+	private JsonResponse saveUser(User u) {
+		JsonResponse jr = null;
+		try {
+			userRepo.save(u);
+			jr = JsonResponse.getInstance(u);
+		}
+		catch(DataIntegrityViolationException cve) {
+			jr = JsonResponse.getInstance(cve.getMessage());
+		}
 		return jr;
 	}
 }

@@ -1,6 +1,7 @@
 package com.prs.web;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.prs.business.purchaserequest.PurchaseRequest;
 import com.prs.business.purchaserequest.PurchaseRequestRepository;
+import com.prs.business.user.User;
 
 @RestController
 @RequestMapping("/purchase-requests")
 public class PurchaseRequestController {
+	
+	private final double maximumForApproval = 50.00;
 	
 	@Autowired
 	private PurchaseRequestRepository prRepo;
@@ -52,6 +56,22 @@ public class PurchaseRequestController {
 		return jr;
 	}
 	
+	@GetMapping("/list-review")
+	public JsonResponse getListOfReviews(@RequestBody User u) {
+		JsonResponse jr = null;
+		List<PurchaseRequest> filteredRequests = prRepo.findByStatusAndUserNot("Review", u);
+			try {
+				for(PurchaseRequest p: filteredRequests) {
+					jr = JsonResponse.getInstance(p);
+				}
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance("Oops! An error occured");
+		}
+		
+		return jr;
+	}
+	
 //	@PostMapping("/")
 //	public JsonResponse addPurchaseRequest(@RequestBody PurchaseRequest pr) {
 //		return savePurchaseRequest(pr);
@@ -75,6 +95,32 @@ public class PurchaseRequestController {
 		}
 		return jr;
 	}
+	
+	@PostMapping("/review")
+	public JsonResponse submitForReview(@RequestBody PurchaseRequest pr) {
+		JsonResponse jr = null;
+		try {
+			if(pr.getTotal() < maximumForApproval) {
+				pr.setStatus("Approved");
+				savePurchaseRequest(pr);
+				
+				jr = JsonResponse.getInstance(pr);
+			}
+			else {
+				pr.setStatus("Review");
+				savePurchaseRequest(pr);
+				
+				jr = JsonResponse.getInstance(pr);
+			}
+		}
+		catch(Exception e) {
+			jr = JsonResponse.getInstance(e);
+		}
+		return jr;
+	}
+	
+//	@GetMapping("/list-review")
+//	public JsonResponse reviewList(@)
 	
 	@PostMapping("/approved")
 	public JsonResponse reviewApproved(@RequestBody PurchaseRequest pr) {

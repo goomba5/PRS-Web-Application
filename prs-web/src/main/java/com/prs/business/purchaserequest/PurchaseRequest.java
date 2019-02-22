@@ -123,7 +123,7 @@ public class PurchaseRequest {
 		return reasonForRejection;
 	}
 
-	public void setRejectionForReason(String reasonForRejection) {
+	public void setReasonForRejection(String reasonForRejection) {
 		this.reasonForRejection = reasonForRejection;
 	}
 
