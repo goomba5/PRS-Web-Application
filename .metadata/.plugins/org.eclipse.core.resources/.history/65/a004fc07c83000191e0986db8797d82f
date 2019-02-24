@@ -1,8 +1,0 @@
-package com.prs.business.prli;
-
-import javax.persistence.Entity;
-
-@Entity
-public class PurchaseRequestLineItem {
-	
-}

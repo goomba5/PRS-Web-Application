@@ -1,9 +1,0 @@
-package com.prs.business.prli;
-
-import org.springframework.data.repository.CrudRepository;
-
-import com.prs.web.PRLIController;
-
-public interface PRLIRepository extends CrudRepository<PRLIController, Integer> {
-
-}

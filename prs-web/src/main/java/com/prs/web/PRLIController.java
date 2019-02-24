@@ -21,7 +21,7 @@ import com.prs.business.purchaserequest.PurchaseRequestRepository;
 
 
 @RestController
-@RequestMapping("/prli")
+@RequestMapping("/purchase-request-line-items")
 public class PRLIController {
 	
 	@Autowired

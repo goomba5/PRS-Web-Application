@@ -1,7 +1,0 @@
-package com.prs.business.prli;
-
-import org.springframework.data.repository.CrudRepository;
-
-public interface PRLIRepository extends CrudRepository<PurchaseRequestLineItem, Integer> {
-
-}

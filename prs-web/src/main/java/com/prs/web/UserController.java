@@ -104,7 +104,6 @@ public class UserController {
 		return saveUser(u);
 	}
 	
-	
 	@DeleteMapping("/{id}")
 	public JsonResponse deleteUser(@PathVariable int id) {
 		JsonResponse jr = null;

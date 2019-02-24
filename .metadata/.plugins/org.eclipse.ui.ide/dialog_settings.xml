@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/PRSConsole"/>
+		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/bmdbSpringProject"/>
+		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/ch21_prj2_ManageCustomerData"/>
+		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/ContactManager"/>
 		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/HelloWorldSpringWebMySQL"/>
 		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/Pokedex"/>
 		<item value="/Users/ghenderson/Documents/workspace-sts-3.9.6.RELEASE/prs-jpa-demo2"/>
