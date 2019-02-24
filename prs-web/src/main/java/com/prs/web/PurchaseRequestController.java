@@ -109,7 +109,7 @@ public class PurchaseRequestController {
 		return jr;
 	}
 	
-	@PostMapping("/review")
+	@PostMapping("/submit-review")
 	public JsonResponse submitForReview(@RequestBody PurchaseRequest pr) {
 		JsonResponse jr = null;
 		try {
@@ -135,7 +135,7 @@ public class PurchaseRequestController {
 //	@GetMapping("/list-review")
 //	public JsonResponse reviewList(@)
 	
-	@PostMapping("/approved")
+	@PostMapping("/approve")
 	public JsonResponse reviewApproved(@RequestBody PurchaseRequest pr) {
 		JsonResponse jr = null;
 		try {
@@ -150,7 +150,7 @@ public class PurchaseRequestController {
 		return jr;
 	}
 	
-	@PostMapping("/rejected")
+	@PostMapping("/reject")
 	public JsonResponse reviewRejected(@RequestBody PurchaseRequest pr) {
 		JsonResponse jr = null;
 		try {
