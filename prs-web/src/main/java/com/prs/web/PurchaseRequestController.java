@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.prs.business.purchaserequest.PurchaseRequest;
 import com.prs.business.purchaserequest.PurchaseRequestRepository;
 import com.prs.business.user.User;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/purchase-requests")
 public class PurchaseRequestController {
@@ -92,6 +94,7 @@ public class PurchaseRequestController {
 	
 	@PostMapping("/submit-new")
 	public JsonResponse submitPurchaseRequest(@RequestBody PurchaseRequest pr) {
+		System.out.println("PR Test");
 		JsonResponse jr = null;
 		try {
 			LocalDateTime today = LocalDateTime.now();
